@@ -1,0 +1,16 @@
+{
+  "name": "mongoose-restaurants",
+  "version": "1.0.0",
+  "description": "`docker run --name some-mongo -p 27017:27017 -d mongo` ## Connect to docker container logs `docker run -it --link some-mongo:mongo --rm mongo sh -c 'exec mongo \"$MONGO_PORT_27017_TCP_ADDR:$MONGO_PORT_27017_TCP_PORT/test\"'`",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "index": "node makeIndexes",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Matthew Lawson",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^5.0.7"
+  }
+}
