@@ -1,5 +1,4 @@
 const mongoose = require('mongoose');
-const Cat = require('./models/Cat');
 const Restaurant = require('./models/Restaurant');
 
 init();

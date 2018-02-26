@@ -1,15 +1,20 @@
 const mongoose = require('mongoose');
+const Chain = require('./Chain');
 
-var schema = mongoose.Schema({
+
+const versionSchema = new mongoose.Schema({ versionId: Number, lastUpdated: Date }, {_id: false});
+const geoJSONPoint = new mongoose.Schema({type: {$type: String, enum: ['Point']}, coordinates: [Number]}, { typeKey: '$type', _id: false });
+
+const restaurantSchema = mongoose.Schema({
   id: String,
-  name: { $type: String },
-  geo: { type: String, coordinates: [Number] },
-  version: { $type: Number }
-
+  name: String,
+  geo: geoJSONPoint,
+  version: versionSchema,
+  chain: {$type: mongoose.Schema.Types.ObjectId, ref: 'Chain'}
 }, { typeKey: '$type' });
 
 
-schema.index(
+restaurantSchema.index(
   {
     "name": "text",
     "address.building": "text",
@@ -24,10 +29,14 @@ schema.index(
   }
 );
 
-schema.index(
+restaurantSchema.index(
   { "geo": "2dsphere" }
 )
 
-schema.index({ "id": 1 }, { "unique": true });
+restaurantSchema.index({"version.versionId": 1});
+restaurantSchema.index({"version.lastUpdated": 1});
 
-module.exports = mongoose.model('Restaurant', schema);
+restaurantSchema.index({ "id": 1 }, { "unique": true });
+
+module.exports = {
+  mongoose.model('Restaurant', restaurantSchema);
